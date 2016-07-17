@@ -37,6 +37,10 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 |                                |                                  |                |
 |                                |                                  |                | 
 
+### Credits 
+
+Credit to [tyarkoni](https://github.com/tyarkoni) for his [work on finite state machines](https://github.com/tyarkoni/transitions) that formed the foundation for my work in that area.
+
 ## License
 
 [![CC0](http://i.creativecommons.org/p/zero/1.0/88x31.png)](http://creativecommons.org/publicdomain/zero/1.0/)
