@@ -1,3 +1,17 @@
+from unrestricted import UnrestrictedGrammar
+from contextSensitive import ContextSensitiveGrammar
+from grammar import isVariable
+
+class ContextFreeGrammar(ContextSensitiveGrammar):
+
+    def validRule(self, r ):
+        if not super(ContextFreeGrammar, self).validRule(r):
+            if r.rhs: return False
+        elif len(r.lhs) != 1 or not isVariable(r.lhs[0]):
+            return False
+        return True
+
+
 """
 Algorithm 4.2.1
 Construction of the Set of Nullable Variables
