@@ -1,3 +1,6 @@
+<p align="center">
+  <img src="images/repo_header_python.png">
+</p>
 # Sudkamp Languages And Machines - Python 3
 
 All the algorithms from Sudkamp's [Languages and Machines](http://www.amazon.com/Languages-Machines-Introduction-Computer-Science/dp/0321322215) implemented in *Python 3*.
