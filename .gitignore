@@ -10,3 +10,6 @@ dist/*
 .coverage
 .ipynb_checkpoints
 examples/state.png
+
+# Ignore Virtualenv files
+*env/
