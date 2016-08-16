@@ -333,7 +333,7 @@ class Machine(object):
             raise MachineError('Passing arguments {0} caused an inheritance error: {1}'.format(kwargs.keys(), e))
 
         self.model = self if model is None else model
-        self.alphabet = self.events # a simple renaming
+        self.alphabet = self.events.keys() # a simple renaming
         self.states = OrderedDict()
         self.final_states = set()
         self.events = {}
