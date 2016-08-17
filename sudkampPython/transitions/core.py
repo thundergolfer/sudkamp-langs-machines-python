@@ -38,7 +38,6 @@ class State(object):
                 callable, or a list of strings.
             ignore_invalid_triggers (Boolean): Optional flag to indicate if
                 unhandled/invalid triggers should raise an exception
-
         """
         self.name = name
         self.ignore_invalid_triggers = ignore_invalid_triggers
@@ -70,37 +69,37 @@ class State(object):
 
 class Condition(object):
 
-    def __init__(self, func, target=True):
-        """
-        Args:
-            func (string): Name of the condition-checking callable
-            target (bool): Indicates the target state--i.e., when True,
-                the condition-checking callback should return True to pass,
-                and when False, the callback should return False to pass.
-        Notes:
-            This class should not be initialized or called from outside a
-            Transition instance, and exists at module level (rather than
-            nesting under the ransition class) only because of a bug in
-            dill that prevents serialization under Python 2.7.
-        """
-        self.func = func
-        self.target = target
+        def __init__(self, func, target=True):
+            """
+            Args:
+                func (string): Name of the condition-checking callable
+                target (bool): Indicates the target state--i.e., when True,
+                    the condition-checking callback should return True to pass,
+                    and when False, the callback should return False to pass.
+            Notes:
+                This class should not be initialized or called from outside a
+                Transition instance, and exists at module level (rather than
+                nesting under the ransition class) only because of a bug in
+                dill that prevents serialization under Python 2.7.
+            """
+            self.func = func
+            self.target = target
 
-    def check(self, event_data):
-        """ Check whether the condition passes.
-        Args:
-            event_data (EventData): An EventData instance to pass to the
-            condition (if event sending is enabled) or to extract arguments
-            from (if event sending is disabled). Also contains the data
-            model attached to the current machine which is used to invoke
-            the condition.
-        """
-        predicate = getattr(event_data.model, self.func)
-        if event_data.machine.send_event:
-            return predicate(event_data) == self.target
-        else:
-            return predicate(
-                *event_data.args, **event_data.kwargs) == self.target
+        def check(self, event_data):
+            """ Check whether the condition passes.
+            Args:
+                event_data (EventData): An EventData instance to pass to the
+                condition (if event sending is enabled) or to extract arguments
+                from (if event sending is disabled). Also contains the data
+                model attached to the current machine which is used to invoke
+                the condition.
+            """
+            predicate = getattr(event_data.model, self.func)
+            if event_data.machine.send_event:
+                return predicate(event_data) == self.target
+            else:
+                return predicate(
+                    *event_data.args, **event_data.kwargs) == self.target
 
 
 class Transition(object):
@@ -323,7 +322,6 @@ class Machine(object):
                 executed in a state callback function will be queued and executed later.
                 Due to the nature of the queued processing, all transitions will
                 _always_ return True since conditional checks cannot be conducted at queueing time.
-
             **kwargs additional arguments passed to next class in MRO. This can be ignored in most cases.
         """
 
@@ -333,9 +331,7 @@ class Machine(object):
             raise MachineError('Passing arguments {0} caused an inheritance error: {1}'.format(kwargs.keys(), e))
 
         self.model = self if model is None else model
-        self.alphabet = self.events.keys() # a simple renaming
         self.states = OrderedDict()
-        self.final_states = set()
         self.events = {}
         self.current_state = None
         self.send_event = send_event
@@ -382,11 +378,6 @@ class Machine(object):
         return self._initial
 
     @property
-    def final(self):
-        """ Return the set of final (or 'accepting') states """
-        return self.final_states
-
-    @property
     def has_queue(self):
         """ Return boolean indicating if machine has queue or not """
         return self._queued
@@ -394,10 +385,6 @@ class Machine(object):
     def is_state(self, state):
         """ Check whether the current state matches the named state. """
         return self.current_state.name == state
-
-    def is_final(self, state):
-        """ Check whether the named state is a final state. """
-        return state in self.final_states
 
     def get_state(self, state):
         """ Return the State instance with the passed name. """
@@ -411,12 +398,6 @@ class Machine(object):
             state = self.get_state(state)
         self.current_state = state
         self.model.state = self.current_state.name
-
-    def set_final(self, state):
-        """ Set state as a final ('accepting') state. """
-        if state not in self.states:
-            raise MachineError("Can't set state as final. State not in machine.")
-        self.final_states.add(state)
 
     def add_state(self, *args, **kwargs):
         """ Alias for add_states. """
@@ -562,20 +543,6 @@ class Machine(object):
             func(event_data)
         else:
             func(*event_data.args, **event_data.kwargs)
-
-    def read(self, symbol):
-        """
-        This has been added to the stock "transitions" library to be a more appropiate
-        transition handling method for algorithm implementation.
-
-        For a transition q0 -[a]-> q1 the stock library can do
-            machine.a()
-            machine._process(s.a)
-            machine.events['a']_trigger()
-        none of which are particularly good for our purposes. With read() you can simply do
-            machine.read('a')
-        """
-        return self.events[symbol]._trigger()
 
     def _process(self, trigger):
 

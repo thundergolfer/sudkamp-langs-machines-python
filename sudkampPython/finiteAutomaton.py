@@ -1,4 +1,39 @@
-from sudkampPython.transitions import Machine
+from sudkampPython.transitions import Machine, State
+
+class FiniteStateMachine(Machine):
+    """ An adapted Machine class better suited for use in algorithms. """"
+
+    def __init__( *args, **kwargs ):
+        super(FiniteStateMachine, self).__init__(**kwargs)
+
+        self.final_states = set()
+
+    @property
+    def alphabet(self):
+        return self.events.keys()
+
+    @property
+    def final(self):
+        """ Return the set of final (or 'accepting') states. """
+        return self.final_states
+
+    def set_final(self, state):
+        """ Set state as a final (or 'accepting') state. """
+        if not isinstance(state, State): state = state.name
+        if state not in self.states:
+            raise MachineError("Can't set state as final. State not in machine.")
+        self.final_states.add(state)
+
+    def read(self, symbol):
+        """
+        For a transition q0 -[a]-> q1 the stock library can do
+            machine.a()
+            machine._process(s.a)
+            machine.events['a']_trigger()
+        none of which are particularly good for our purposes. With read() you can simply do
+            machine.read('a')
+        """
+        return self.events[symbol]._trigger()
 
 """
 Algorithm 5.7.2
