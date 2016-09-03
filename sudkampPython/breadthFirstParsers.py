@@ -59,6 +59,7 @@ def breadthFirstTopDownParse( G, p, Q):
         if EMPTY(Q) or p == uwv
     return True if p == uwv else False
 
+
 def uAv_structure( sentForm ):
     raise NotImplementedError
 

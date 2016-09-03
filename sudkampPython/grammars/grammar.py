@@ -19,3 +19,12 @@ class Rule(object):
             return " ".join(self.lhs) + " -> " + " ".join(self.rhs)
         else:
             return " ".join(self.lhs) + " -> null"
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            if self.lhs == other.lhs and self.rhs == other.rhs:
+                return True
+            else:
+                return False
+        else:
+            return False
