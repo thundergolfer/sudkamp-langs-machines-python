@@ -12,41 +12,58 @@ class ContextFreeGrammar(ContextSensitiveGrammar):
         return True
 
 
-"""
-Algorithm 4.2.1
-Construction of the Set of Nullable Variables
+    """
+    Algorithm 4.2.1
+    Construction of the Set of Nullable Variables
 
-input: context-free grammar G = (V, Σ, P, S)
+    input: context-free grammar G = (V, Σ, P, S)
 
-1. NULL := {A | A -> null ∈ P}
-2. repeat
-    2.1 PREV := NULL
-    2.2 for each variable A ∈ V do
-            if there is an A rule A -> w and w ∈ PREV*, then
-                    NULL := NULL ∪ {A}
-  until NULL = PREV
-"""
-def constructSetOfNullableVars( contextFreeGrammar ):
-    raise NotImplementedError
+    1. NULL := {A | A -> null ∈ P}
+    2. repeat
+        2.1 PREV := NULL
+        2.2 for each variable A ∈ V do
+                if there is an A rule A -> w and w ∈ PREV*, then
+                        NULL := NULL ∪ {A}
+      until NULL = PREV
+    """
+    def constructSetOfNullableVars( self ):
+        raise NotImplementedError
 
-"""
-Algorithm 4.3.1
-Contruction of the Set CHAIN(A)
+    """
+    Algorithm 4.3.1
+    Contruction of the Set CHAIN(A)
 
-input: essentially noncontracting context-free grammar G = (V, Σ, P, S)
+    input: essentially noncontracting context-free grammar G = (V, Σ, P, S)
 
-1. CHAIN(A) := {A}
-2. PREV := ∅
-3. repeat
-    3.1 NEW := CHAIN(A) - PREV
-    3.2 PREV := CHAIN(A)
-    3.3 for each variable B ∈ NEW do
-            for each rule B -> C do
-                CHAIN(A) := CHAIN(A) ∪ {C}
-   until CHAIN(A) = PREV
-"""
-def chain( A ):
-    raise NotImplementedError
+    1. CHAIN(A) := {A}
+    2. PREV := ∅
+    3. repeat
+        3.1 NEW := CHAIN(A) - PREV
+        3.2 PREV := CHAIN(A)
+        3.3 for each variable B ∈ NEW do
+                for each rule B -> C do
+                    CHAIN(A) := CHAIN(A) ∪ {C}
+       until CHAIN(A) = PREV
+    """
+    def chain( self, A ):
+        if A not in self.vars:
+            print(A, " not in grammar's variables.")
+            return False
+        chain_A = set(A)
+        prev = set()
+        while True:
+            new  = set()
+            prev = chain_A.copy()
+            for var in new:
+                for rule in self.rules:
+                    if len(rule.lhs) == 1 and isVariable(rule.lhs[0]):
+                        if len(rule.rhs) == 1 and isVariable(rule.rhs[0]):
+                            # rule is of form B -> C
+                            C = rule.rhs[0]
+                            chain_A.union(set(C))
+            if chain_A == prev:
+                break
+        return chain_A
 
 """
 Algorithm 4.4.2

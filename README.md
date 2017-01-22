@@ -14,7 +14,7 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 | **Page** | **Number** | **Name (in 3<sup>rd</sup> edition)** | **Name (in repository)** | **File**   |
 |:----------|:-----------|:-------------------------------------|:-------------------------|:-----------|
 | 108       | 4.2.1      | Construction of Set of Nullable Vars |                          |            |
-| 114	      | 4.3.1      | Construction of the Set CHAIN(A)     |
+| 114	      | 4.3.1      | Construction of the Set CHAIN(A)     | chain(A) | [contextFree.py](/sudkampPython/grammars/contextFree.py) |
 | 117       | 4.4.2      | Constr. of Set of Vars that Derive Terminal Strings | | |
 | 119       | 4.4.4      | Contruction of Set of Reachable Vars. | | |
 | 126       | 4.6.1      | CYK Algorithm | CYK() | [cyk.py](/sudkampPython/cyk.py) |
