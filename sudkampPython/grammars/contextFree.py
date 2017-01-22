@@ -27,7 +27,17 @@ class ContextFreeGrammar(ContextSensitiveGrammar):
       until NULL = PREV
     """
     def constructSetOfNullableVars( self ):
-        raise NotImplementedError
+        NULL = {r.lhs[0] for r.lhs[0] in self.rules if len(r.rhs) == 0}
+        while True:
+            PREV = NULL.copy()
+            for var in self.vars:
+                for rule in  self.rules:
+                    if rule.lhs[0] == var and all(v in PREV for v in rule.rhs):
+                        A = rule.lhs[0]
+                        NULL = NULL.union({A})
+            if NULL == PREV:
+                break
+        return NULL
 
     """
     Algorithm 4.3.1
@@ -60,7 +70,7 @@ class ContextFreeGrammar(ContextSensitiveGrammar):
                         if len(rule.rhs) == 1 and isVariable(rule.rhs[0]):
                             # rule is of form B -> C
                             C = rule.rhs[0]
-                            chain_A.union(set(C))
+                            chain_A = chain_A.union(set(C))
             if chain_A == prev:
                 break
         return chain_A
