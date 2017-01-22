@@ -75,22 +75,31 @@ class ContextFreeGrammar(ContextSensitiveGrammar):
                 break
         return chain_A
 
-"""
-Algorithm 4.4.2
-Construction of the Set of Variables That Derive Terminal Strings
+    """
+    Algorithm 4.4.2
+    Construction of the Set of Variables That Derive Terminal Strings
 
-input: context-free grammar G = (V, Σ, P, S)
+    input: context-free grammar G = (V, Σ, P, S)
 
-1. TERM := {A | there is a rule A -> w ∈ P with w ∈ Σ*}
-2. repeat
-    2.1 PREV := TERM
-    2.2 for each variable A ∈ V do
-            if there is an A rule A -> w and w ∈ (PREV ∪ Σ*) then
-                TERM := TERM ∪ {A}
-   until PREV = TERM
-"""
-def getVariableThatDeriveTerminalStrings( contextFreeGrammar ):
-    raise NotImplementedError
+    1. TERM := {A | there is a rule A -> w ∈ P with w ∈ Σ*}
+    2. repeat
+        2.1 PREV := TERM
+        2.2 for each variable A ∈ V do
+                if there is an A rule A -> w and w ∈ (PREV ∪ Σ*) then
+                    TERM := TERM ∪ {A}
+       until PREV = TERM
+    """
+    def getVariablesThatDeriveTerminalStrings( self ):
+        TERM = {r.lhs[0] for r.lhs[0] in self.rules if all(t in self.terminals for t in r.rhs)}
+        while True:
+            PREV = TERM.copy()
+            for A in self.vars:
+                for r in self.rules:
+                    if r.lhs[0] == A and all(t in self.terminals.union(PREV) for t in r.rhs):
+                        TERM = TERM.union({A})
+            if PREV == TERM:
+                break
+        return TERM
 
 """
 Algorithm 4.4.4
