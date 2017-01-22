@@ -5,6 +5,8 @@
 
 All the algorithms from Sudkamp's [Languages and Machines](http://www.amazon.com/Languages-Machines-Introduction-Computer-Science/dp/0321322215) implemented in *Python 3*.
 
+**Note:** If you prefer *Java*, the same work is being done in that language over in [thundergolfer/sudkamp-langs-machines-java](https://github.com/thundergolfer/sudkamp-langs-machines-java).
+
 ## Contributing
 
 You are welcome to fork this repo in order to complete unimplemented algorithms or to improve on the existing ones. Please try to stick as close to the pseudo-code from the book.
@@ -19,7 +21,7 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 | 119       | 4.4.4      | Contruction of Set of Reachable Vars. | constructSetOfReachableVars() | [contextFree.py](/sudkampPython/grammars/contextFree.py)] |
 | 126       | 4.6.1      | CYK Algorithm | CYK() | [cyk.py](/sudkampPython/cyk.py) |
 | 172       | 5.6.3      | Contruction of DM, a DFA Equiv. to NFA M | | |
-| 179       | 5.7.2      | Determination of Equivalent States of DFA | | |
+| 179       | 5.7.2      | Determination of Equivalent States of DFA | determineEquivelantStatesOfDFA() | [finiteAutomaton.py](/sudkampPython/finiteAutomaton.py) |
 | 194       | 6.2.2      | Construction of a Regular Expression from a Finite Automaton | | |
 | 543       | 17.4.3     | Recursive Simulation of NonDeterministic Turing Machine | | |
 | 558       | 18.2.1     | Breadth-First Top-Down Parser | | |
@@ -37,12 +39,14 @@ You are welcome to fork this repo in order to complete unimplemented algorithms 
 
 | **Name**                      | **Name (In Repository)**        | **File**         |
 |:-------------------------------|:---------------------------------|:---------------|
-|                                |                                  |                |
+|  Calculate null closure of finite automaton | nullClosure() | [finiteAutomaton.py](sudkampPython/finiteAutomaton.py)                |
 |                                |                                  |                |
 
 ### Credits
 
-Credit to [tyarkoni](https://github.com/tyarkoni) for his [work on finite state machines](https://github.com/tyarkoni/transitions) that formed the foundation for my work in that area.
+* Credit to [tyarkoni](https://github.com/tyarkoni) for his [work on finite state machines](https://github.com/tyarkoni/transitions) that formed the foundation for my work in that area.
+
+* Credit to [Sebastian Sardina](https://sites.google.com/site/ssardina/) for being an awesome *Computing Theory* teacher.
 
 ## License
 
