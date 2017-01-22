@@ -101,20 +101,31 @@ class ContextFreeGrammar(ContextSensitiveGrammar):
                 break
         return TERM
 
-"""
-Algorithm 4.4.4
-Construction of the Set of Reachable Variables
+    """
+    Algorithm 4.4.4
+    Construction of the Set of Reachable Variables
 
-input: context-free grammar G = (V, Σ, P, S)
+    input: context-free grammar G = (V, Σ, P, S)
 
-1. REACH := {S}
-2. PREV := ∅
-3. repeat
-    3.1 NEW := REACH - PREV
-    3.2 PREV := REACH
-    3.3 for each variable A ∈ NEW do
-            for each rule A -> w do add all variable in w to REACH
-   until REACH = PREV
-"""
-def constructSetOfReachableVars( contextFreeGrammar ):
-    raise NotImplementedError
+    1. REACH := {S}
+    2. PREV := ∅
+    3. repeat
+        3.1 NEW := REACH - PREV
+        3.2 PREV := REACH
+        3.3 for each variable A ∈ NEW do
+                for each rule A -> w do add all variable in w to REACH
+       until REACH = PREV
+    """
+    def constructSetOfReachableVars( self ):
+        REACH = {self.getStartSymbol()}
+        PREV = {}
+        while True:
+            NEW = REACH - PREV
+            PREV = REACH.copy()
+            for A in NEW:
+                for r in self.rules:
+                    if r.lhs[0] == A:
+                        REACH = REACH.union({x for x in r.rhs if isVariable(x)})
+            if REACH == PREV:
+                break
+        return REACH
